@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
-import { selectContacts } from 'redux/selectors';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { selectContacts } from 'redux/selectors';
 import {
   StyledButton,
   StyledForm,
@@ -10,11 +9,12 @@ import {
 } from './ContactForm.styled';
 
 export const ContactForm = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const contacts = useSelector(selectContacts);
+  // const contacts = useSelector(selectContacts);
 
-  const [state, setState] = useState({ //в локальном стейте будем хранить объект с именем и номером телефона контакта
+  const [state, setState] = useState({
+    //в локальном стейте будем хранить объект с именем и номером телефона контакта
     name: '',
     phone: '',
   });
