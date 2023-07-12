@@ -27,11 +27,11 @@ const contactsSlice = createSlice({
       );
     },
   },
-  
+
   extraReducers: builder => {
     builder
       .addCase(getContactsThunk.fulfilled, (state, action) => {
-        state.contacts = action.payload; //в state записываем результат работы thunk в случае успеха (fulfilled)
+        state.contacts.contacts = action.payload; //в state записываем результат работы thunk в случае успеха (fulfilled)
         state.isLoading = false; //меняем индикатор на false, чтобы не крутился после успеха (fulfilled)
         state.error = null; //чистим информацию об ошибке, чтоб при следующем запросе не висела информация из прошлого неуспешного результата работы thunk
       })
