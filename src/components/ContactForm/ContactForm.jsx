@@ -1,5 +1,5 @@
 import { useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import { selectContacts } from 'redux/selectors';
 import {
   StyledButton,
@@ -7,39 +7,40 @@ import {
   StyledInput,
   StyledLabel,
 } from './ContactForm.styled';
+import { selectContacts } from 'redux/selectors';
+import { addContactsThunk } from 'redux/thunks';
 
 export const ContactForm = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  // const contacts = useSelector(selectContacts);
+  const contacts = useSelector(selectContacts);
 
+  //в локальном стейте будем хранить объект с именем и номером телефона контакта
   const [state, setState] = useState({
-    //в локальном стейте будем хранить объект с именем и номером телефона контакта
     name: '',
     phone: '',
   });
 
   const handleChange = event => {
-    setState(prev => ({ ...prev, [event.target.name]: event.target.value })); //так как стейт - это объект, то чтоб не перезаписывались все значения ключей объекта, мы используем prev, то есть каждый раз учитываем предыдущее значение каждого отдельного свойства
+    setState(prev => ({ ...prev, [event.target.name]: event.target.value })); //так как стейт - это объект, то чтобы не перезаписывались все значения ключей объекта, мы используем prev, то есть каждый раз учитываем предыдущее значение каждого отдельного свойства
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    // dispatch()
+    
     //проверяем чтоб такого имени не было в contacts
     // if (contacts.find(contact => contact.name === name)) {
     //   alert(`${name} is already in contacts`);
     //   return;
     // }
 
-    // dispatch(addContact(name, number)); //через диспатч в файл contactsSlice.js передаем name и number
+    dispatch(addContactsThunk(state)); //через диспатч в файл contactsSlice.js передаем объект контакта с name и phone. Thunk на свое место вернет объект с type и payload
     reset(); //очищаем инпуты
   };
 
   //функция для сброса формы
   const reset = () => {
-    // setName('');
-    // setNumber('');
+    setState({ name: '', phone: '' });
   };
 
   return (
