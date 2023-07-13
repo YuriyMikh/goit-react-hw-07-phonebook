@@ -1,22 +1,17 @@
 import { useState } from 'react';
-import {
-  useDispatch,
-  // useSelector
-} from 'react-redux';
-// import { selectContacts } from 'redux/selectors';
+import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   StyledButton,
   StyledForm,
   StyledInput,
   StyledLabel,
 } from './ContactForm.styled';
-// import { selectContacts } from 'redux/selectors';
-import { addContactsThunk } from 'redux/thunks';
+import { addContactThunk } from 'redux/thunks';
+import { selectContacts } from 'redux/selectors';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
-
-  // const contacts = useSelector(selectContacts);
 
   //в локальном стейте будем хранить объект с именем и номером телефона контакта
   const [state, setState] = useState({
@@ -24,26 +19,24 @@ export const ContactForm = () => {
     phone: '',
   });
 
+  const contacts = useSelector(selectContacts); //из файла contactsSlice.js (состояния Redux) вытягиваем наши контакты (из state.contacts.items)
+
+  //функция-обработчик изменений в инпутах
   const handleChange = event => {
-    setState(prev => ({ ...prev, [event.target.name]: event.target.value })); //так как стейт - это объект, то чтобы не перезаписывались все значения ключей объекта, мы используем prev, то есть каждый раз учитываем предыдущее значение каждого отдельного свойства
+    setState(prev => ({ ...prev, [event.target.name]: event.target.value })); //стейт - это объект, чтобы не перезаписывались все значения ключей объекта, используем prev, то есть каждый раз учитываем предыдущее значение каждого отдельного ключа
   };
 
+  //функция-обработчик сабмита (кнопки "Add contact")
   const handleSubmit = event => {
     event.preventDefault();
-    
     //проверяем чтоб такого имени не было в contacts
-    // if (contacts.find(contact => contact.name === name)) {
-    //   alert(`${name} is already in contacts`);
-    //   return;
-    // }
-
-    dispatch(addContactsThunk(state)); //через диспатч в файл contactsSlice.js передаем объект контакта с name и phone. Thunk на свое место вернет объект с type и payload
-    reset(); //очищаем инпуты
-  };
-
-  //функция для сброса формы
-  const reset = () => {
-    setState({ name: '', phone: '' });
+    if (contacts.find(contact => contact.name === state.name)) {
+      // alert(`${state.name} is already in contacts`);
+      toast.error(`${state.name} is already in contacts`);
+      return;
+    }
+    dispatch(addContactThunk(state)); //через диспатч в файл contactsSlice.js передаем созданный объект контакта с name и phone. Далее thunk на свое место вернет объект с type и payload
+    setState({ name: '', phone: '' }); //очищаем инпуты
   };
 
   return (

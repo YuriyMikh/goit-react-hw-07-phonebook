@@ -15,7 +15,7 @@ export const getContactsThunk = createAsyncThunk(
   }
 );
 
-export const addContactsThunk = createAsyncThunk(
+export const addContactThunk = createAsyncThunk(
   'contacts/addContact',
   //в первый параметр придет объект контакта, который надо будет добавлять
   async (contact, thunkAPI) => {
@@ -32,8 +32,8 @@ export const deleteContactThunk = createAsyncThunk(
   'contacts/deleteContact',
   async (id, thunkAPI) => {
     try {
-      await deleteContact(id); //дождись результата запроса,
-      return id; //и только если будет успех - верни айдишник. А если будет ошибка - return не выполнится
+      await deleteContact(id); //ждем результата запроса,
+      return id; //и только если будет успех - возвращаем айдишник. А если будет ошибка - return не выполнится
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'; //из <-- этой либы делает экшены и редюсеры
 import {
-  addContactsThunk,
+  addContactThunk,
   deleteContactThunk,
   getContactsThunk,
 } from './thunks';
@@ -36,16 +36,16 @@ const contactsSlice = createSlice({
         state.isLoading = true; //action не будет использоваться, поэтому в state просто записываем isLoading = true
       })
       //ниже деструктуризируем payload из action
-      .addCase(addContactsThunk.fulfilled, (state, { payload }) => {
+      .addCase(addContactThunk.fulfilled, (state, { payload }) => {
         state.items = [...state.items, payload]; //в state.items сначала распыляем старые контакты + добавляем новый контакт
         state.isLoading = false;
         state.error = null;
       })
-      .addCase(addContactsThunk.rejected, (state, action) => {
+      .addCase(addContactThunk.rejected, (state, action) => {
         state.error = action.payload;
         state.isLoading = false;
       })
-      .addCase(addContactsThunk.pending, state => {
+      .addCase(addContactThunk.pending, state => {
         state.isLoading = true;
       })
       .addCase(deleteContactThunk.fulfilled, (state, action) => {
@@ -62,7 +62,5 @@ const contactsSlice = createSlice({
   },
 });
 
-// export const { addContact, deleteContact } = contactsSlice.actions; //генераторы экшенов
-// export const contactsReducer = contactsSlice.reducer; //редюсер слайса
-
-export default contactsSlice.reducer;
+export const contactsReducer = contactsSlice.reducer; //редюсер слайса
+// export default contactsSlice.reducer; //дефолтный экспорт

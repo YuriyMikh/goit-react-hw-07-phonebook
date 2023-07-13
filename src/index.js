@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import { App } from 'components/App';
@@ -13,5 +15,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <App />
     </Provider>
     <GlobalCss />
+    <ToastContainer autoClose={2500} />
   </>
 );
